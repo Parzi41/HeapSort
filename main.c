@@ -20,20 +20,20 @@ void Swap(int* num1, int* num2)
 
 void MaxHeap(int arr[], int size, int i) 
 {
-    int largest = i;
-    int left = 2 * i + 1;
-    int right = 2 * i + 2;
+    int parent = i;
+    int child_left = 2 * i + 1;
+    int child_right = 2 * i + 2;
 
-    if (left < size && arr[left] > arr[largest])
-        largest = left;
+    if (child_left < size && arr[child_left] > arr[parent])
+        parent = child_left;
 
-    if (right < size && arr[right] > arr[largest])
-        largest = right;
+    if (child_right < size && arr[child_right] > arr[parent])
+        parent = child_right;
 
-    if (largest != i) 
+    if (parent != i) 
     {
-        Swap(&arr[i], &arr[largest]);
-        MaxHeap(arr, size, largest);
+        Swap(&arr[i], &arr[parent]);
+        MaxHeap(arr, size, parent);
     }
 }
 
