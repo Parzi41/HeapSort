@@ -1,70 +1,58 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-#define SIZE 10
 
 void Fill(int arr[], int size) 
 {
     for (int i = 0; i < size; i++) 
     {
-        arr[i] = rand() % 20;
+        arr[i] = i + 1;
     }
 }
 
-void Swap(int* num1, int* num2) 
+void Swap(int arr[], int size, int num)
 {
-    int temp = *num1;
-    *num1 = *num2;
-    *num2 = temp;
+    int temp = arr[num];
+    arr[num] = arr[size - 1];
+    arr[size - 1] = temp;
 }
 
-void MaxHeap(int arr[], int size, int i) 
-{
-    int parent = i;
-    int child_left = 2 * i + 1;
-    int child_right = 2 * i + 2;
-
-    if (child_left < size && arr[child_left] > arr[parent])
-        parent = child_left;
-
-    if (child_right < size && arr[child_right] > arr[parent])
-        parent = child_right;
-
-    if (parent != i) 
-    {
-        Swap(&arr[i], &arr[parent]);
-        MaxHeap(arr, size, parent);
-    }
-}
-
-void Sort(int arr[], int size)
-{
-    for (int i = size / 2 - 1; i >= 0; i--)
-        MaxHeap(arr, size, i);
-
-    for (int i = size - 1; i >= 0; i--)
-    {
-        Swap(&arr[0], &arr[i]);
-        MaxHeap(arr, i, 0);
-    }
-}
-
-void Show(int arr[], int size) 
+void Show(int arr[], int size)
 {
     for (int i = 0; i < size; ++i)
         printf("%d ", arr[i]);
     printf("\n");
 }
 
+void HeapPermute(int arr[], int n, int size)
+{
+    if (size == 1)
+    {
+        Show(arr, n);
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        HeapPermute(arr, n, size - 1);
+
+        if (size % 2 == 1)
+            Swap(arr, size, 0);
+        else
+            Swap(arr, size, i);
+    }
+}
+
+
 int main() 
 {
-    srand(time(NULL));
+    int n;
 
-    int arr[SIZE];
+    printf("Enter N: ");
+    scanf_s("%d", &n);
 
-    Fill(arr, SIZE);
-    Sort(arr, SIZE);
+    int* arr = (int*)malloc(n * sizeof(int));
+    int size = n;
 
-    printf("Sorted array: \n");
-    Show(arr, SIZE);
+    Fill(arr, size);
+    HeapPermute(arr, n, size);
 }
